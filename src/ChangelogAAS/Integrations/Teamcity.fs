@@ -1,19 +1,14 @@
 module Teamcity
 
-#r "FSharp.Data"
-#load "teamcity.samples.fsx"
-
 open TeamcitySamples
 open FSharp.Data
 open FSharp.Data.HttpRequestHeaders
 
 type TeamCityBuilds =  JsonProvider<TcBuildsSample>
 
-let getChangeDiff projectName oldVersion newVersion =  
+let getChangeDiff projectName oldVersion newVersion baseUrl username password =  
 
     let sendBasicAuthRequest url = 
-        let username = System.Environment.GetEnvironmentVariable("TEAMCITY_USERNAME")
-        let password = System.Environment.GetEnvironmentVariable("TEAMCITY_PASSWORD")
         Http.RequestString(url, headers = [ BasicAuth username password; Accept HttpContentTypes.Json ])
 
     (*  The mapping between projectName and build configuration ID has been
@@ -29,7 +24,8 @@ let getChangeDiff projectName oldVersion newVersion =
         | _ -> failwith (sprintf "Could not map projectname %s to a TeamCity buildType" projectName)
 
     let buildsRequestUrl = 
-        sprintf "https://oslaz-pas2-int.udir.no/httpAuth/app/rest/builds?id=%s&locator=buildType:%s,sinceBuild:%s&fields=$long,build(id,number,status,changes($long,change(id,comment)))" 
+        sprintf "%s/httpAuth/app/rest/builds?id=%s&locator=buildType:%s,sinceBuild:%s&fields=$long,build(id,number,status,changes($long,change(id,comment)))" 
+            baseUrl
             newVersion 
             buildConfigurationId 
             oldVersion

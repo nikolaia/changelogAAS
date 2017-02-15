@@ -2,18 +2,25 @@
 // This prelude allows scripts to be edited in Visual Studio or another F# editing environment 
 
 #if !COMPILED
-#r "Microsoft.Azure.WebJobs.Host"
-#r "System.Net.Http"
+
+#I @"../../packages/Microsoft.Azure.WebJobs/lib/net45/"
+#r "Microsoft.Azure.WebJobs.Host.dll"
+
+#I @"../../packages/FSharp.Data/lib/net40/"
+#r "FSharp.Data.dll"
+
+#I @"../../build/"
+#r "ChangelogAAS.dll"
+
+#I @"../../packages/System.Net.Http/lib/net46"
+#r "System.Net.Http.dll"
+
 #endif
 
 //----------------------------------------------------------------------------------------
 // This is the body of the function 
 
-#load "changelog.fsx"
-#load "mdhtml.fsx"
-
 open Changelog
-open MarkdownToHtml
 
 open System
 open System.Linq
@@ -21,6 +28,20 @@ open System.Net
 open System.Net.Http
 open System.Threading.Tasks
 open Microsoft.Azure.WebJobs.Host
+
+(*
+    let octoApiKey = System.Environment.GetEnvironmentVariable("OCTO_API_KEY")
+    let octoBaseUrl = "https://oslaz-pas2-depl.udir.no"
+
+    let tcBaseUrl = "https://oslaz-pas2-int.udir.no"
+    let tcUsername = System.Environment.GetEnvironmentVariable("TEAMCITY_USERNAME")
+    let tcPassword = System.Environment.GetEnvironmentVariable("TEAMCITY_PASSWORD")
+
+    let jiraBaseUrl = "https://pashjelp.udir.no"
+    let jiraUsername = System.Environment.GetEnvironmentVariable("JIRA_USERNAME")
+    let jiraPassword = System.Environment.GetEnvironmentVariable("JIRA_PASSWORD")
+
+*)
 
 let Run (req: HttpRequestMessage , log: TraceWriter) : Task<HttpResponseMessage> =
     async { 
@@ -31,16 +52,12 @@ let Run (req: HttpRequestMessage , log: TraceWriter) : Task<HttpResponseMessage>
         let projectName = queryParams.TryGetValue("projectName")
         let newestEnvironment = queryParams.TryGetValue("newestEnvironment")
         let oldestEnvironment = queryParams.TryGetValue("oldestEnvironment")
-        let toHtml = queryParams.TryGetValue("toHtml")
 
         let res =
             match projectName, newestEnvironment, oldestEnvironment with 
             | (true, pName),(true, newEnv),(true, oldEnv) -> 
                 let changes = Changelog.getChangesBetweenEnvironments pName newEnv oldEnv
-                match toHtml with
-                | (true, "true") ->
-                    MarkdownToHtml.markdownAsHtmlPageResponse changes
-                | _ -> new HttpResponseMessage(HttpStatusCode.OK, Content = new StringContent(changes))
+                new HttpResponseMessage(HttpStatusCode.OK, Content = new StringContent(changes))
             | _ -> 
                 new HttpResponseMessage(HttpStatusCode.BadRequest, Content = new StringContent("Please pass newestEnvironment and oldestEnvironment as Query Params"))
 

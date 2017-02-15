@@ -1,25 +1,12 @@
 module Jira
 
-#r "FSharp.Data"
-#r "CommonMark"
-#load "jira.samples.fsx"
-
 open FSharp.Data
 open JiraSamples
 open FSharp.Data.HttpRequestHeaders
 
 type JiraIssueSearchJson = JsonProvider<JiraIssueSearchSample>
 
-type Issue = {
-    Key: string;
-    Summary: string;
-    Issuetype: string;
-    Hendelse: string;
-    Omraade: string;
-    Status: string;   
-}
-
-let getJiraIssues keys = 
+let getJiraIssues keys baseUrl username password = 
     if keys |> Seq.isEmpty then
          Seq.empty
     else
@@ -27,10 +14,7 @@ let getJiraIssues keys =
             sprintf """ {"jql":"key in (%s)","startAt":0,"fields":["id","key","customfield_12121","customfield_12122","issuetype","summary","status"]} """ 
                 (keys |> String.concat ",")
 
-        let url = sprintf "https://pashjelp.udir.no/rest/api/2/search/"
-
-        let username = System.Environment.GetEnvironmentVariable("JIRA_USERNAME")
-        let password = System.Environment.GetEnvironmentVariable("JIRA_PASSWORD")
+        let url = sprintf "/rest/api/2/search/"
         
         let response = Http.RequestString(url, 
                                         headers = [ BasicAuth username password; Accept HttpContentTypes.Json; ContentType "application/json;charset=utf-8" ], 
@@ -54,4 +38,5 @@ let getJiraIssues keys =
                                    Issuetype = issue.Fields.Issuetype.Name
                                    Omraade = omraade
                                    Hendelse = hendelse
-                                   Status = issue.Fields.Status.Name } )
+                                   Status = issue.Fields.Status.Name
+                                   Link = sprintf "%s/browse/%s" baseUrl issue.Key } )

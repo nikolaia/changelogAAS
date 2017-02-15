@@ -1,8 +1,5 @@
 module Octopus
 
-#r "FSharp.Data"
-#load "octopus.samples.fsx"
-
 open OctopusSamples
 open FSharp.Data
 open FSharp.Data.HttpRequestHeaders
@@ -10,12 +7,12 @@ open FSharp.Data.HttpRequestHeaders
 type OctoProjectList = JsonProvider<OctopusProjectListSample>
 type OctoProject = JsonProvider<OctopusProjectSample>
 
-let determineEnvironmentVersion projectName environmentName  =
+let determineEnvironmentVersion projectName environmentName baseUrl apiKey  =
 
-    let octoHeader = [ "X-Octopus-ApiKey", System.Environment.GetEnvironmentVariable("OCTO_API_KEY"); Accept HttpContentTypes.Json ]
+    let octoHeader = [ "X-Octopus-ApiKey", apiKey; Accept HttpContentTypes.Json ]
 
     let octoProjectListJson =
-        Http.RequestString("https://oslaz-pas2-depl.udir.no/api/projects", headers = octoHeader)
+        Http.RequestString(sprintf "%s/api/projects" baseUrl, headers = octoHeader)
 
     let projectId =
         (OctoProjectList.Parse octoProjectListJson).Items
@@ -25,7 +22,7 @@ let determineEnvironmentVersion projectName environmentName  =
             | None -> failwith (sprintf "Could not find the project %s" projectName)
 
     let octoProjectJson =
-        let url = sprintf "https://oslaz-pas2-depl.udir.no/api/progression/%s" projectId
+        let url = sprintf "%s/api/progression/%s" baseUrl projectId
         Http.RequestString(url, headers = octoHeader)
 
     let octoProject = OctoProject.Parse octoProjectJson
