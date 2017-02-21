@@ -12,13 +12,13 @@
 #I @"../../build/"
 #r "ChangelogAAS.dll"
 
-#I @"../../packages/System.Net.Http/lib/net46"
-#r "System.Net.Http.dll"
+#r "System.Net.Http"
 
 #endif
 
 //----------------------------------------------------------------------------------------
 // This is the body of the function 
+
 
 open Changelog
 

@@ -14,7 +14,7 @@ let getJiraIssues keys baseUrl username password =
             sprintf """ {"jql":"key in (%s)","startAt":0,"fields":["id","key","customfield_12121","customfield_12122","issuetype","summary","status"]} """ 
                 (keys |> String.concat ",")
 
-        let url = sprintf "/rest/api/2/search/"
+        let url = sprintf "%s/rest/api/2/search/" baseUrl
         
         let response = Http.RequestString(url, 
                                         headers = [ BasicAuth username password; Accept HttpContentTypes.Json; ContentType "application/json;charset=utf-8" ], 
