@@ -3,4 +3,5 @@ nuget FAKE
 nuget FSharp.Core
 nuget FSharp.Data
 nuget Microsoft.Azure.WebJobs
+nuget Newtonsoft.Json
 nuget System.Net.Http

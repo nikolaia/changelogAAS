@@ -15,7 +15,6 @@
 #r "System.Net.Http"
 
 #endif
-
 //----------------------------------------------------------------------------------------
 // This is the body of the function 
 
@@ -61,7 +60,7 @@ let Run (req: HttpRequestMessage , log: TraceWriter) : Task<HttpResponseMessage>
                 }
 
                 let changes = Changelog.getChangesBetweenEnvironments parameters
-                new HttpResponseMessage(HttpStatusCode.OK, Content = new StringContent(changes.ToString())) // JSON Serialize
+                new HttpResponseMessage(HttpStatusCode.OK, Content = new StringContent(sprintf "%A" changes)) // JSON Serialize
             | _ -> 
                 new HttpResponseMessage(HttpStatusCode.BadRequest, Content = new StringContent("Please pass newestEnvironment and oldestEnvironment as Query Params"))
 
