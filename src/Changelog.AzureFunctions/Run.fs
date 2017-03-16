@@ -1,26 +1,7 @@
-//----------------------------------------------------------------------------------------
-// This prelude allows scripts to be edited in Visual Studio or another F# editing environment 
 
-#if !COMPILED
-
-#I @"../../packages/Microsoft.Azure.WebJobs/lib/net45/"
-#r "Microsoft.Azure.WebJobs.Host.dll"
-
-#I @"../../packages/FSharp.Data/lib/net40/"
-#r "FSharp.Data.dll"
-
-#I @"../../build/"
-#r "ChangelogAAS.dll"
-
-#r "System.Net.Http"
-
-#endif
-//----------------------------------------------------------------------------------------
-// This is the body of the function 
-
+module Changelog.AzureFunctions
 
 open Changelog
-
 open System
 open System.Linq
 open System.Net
@@ -43,8 +24,7 @@ let Run (req: HttpRequestMessage , log: TraceWriter) : Task<HttpResponseMessage>
 
         let res =
             match input with 
-            | (true, pName),(true, toEnv),(true, fromEnv) -> 
-
+            | (true, pName),(true, toEnv),(true, fromEnv) ->
                 let parameters = {
                     ProjectName = pName
                     fromEnvironment = fromEnv

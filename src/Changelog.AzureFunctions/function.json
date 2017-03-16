@@ -1,4 +1,6 @@
 {
+    "scriptFile": "Changelog.AzureFunctions.dll",
+    "entryPoint": "Changelog.AzureFunctions.Run",
     "bindings": [
         {
             "type": "httpTrigger",
@@ -11,5 +13,6 @@
             "name": "res",
             "direction": "out"
         }
-    ]
+    ],
+    "disabled": false
 }

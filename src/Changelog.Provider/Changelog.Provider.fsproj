@@ -7,12 +7,12 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>08cf6ee4-da30-4a41-9c59-cd72b784ad96</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ChangelogAAS</RootNamespace>
-    <AssemblyName>ChangelogAAS</AssemblyName>
+    <RootNamespace>Changelog.Provider</RootNamespace>
+    <AssemblyName>Changelog.Provider</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
-    <Name>ChangelogAAS</Name>
+    <Name>Changelog.Provider</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

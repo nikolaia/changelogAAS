@@ -2,6 +2,8 @@ source https://www.nuget.org/api/v2
 nuget FAKE
 nuget FSharp.Core
 nuget FSharp.Data
+nuget Microsoft.AspNet.WebApi
 nuget Microsoft.Azure.WebJobs
+nuget Microsoft.Net.Http
 nuget Newtonsoft.Json
 nuget System.Net.Http
