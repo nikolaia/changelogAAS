@@ -10,20 +10,36 @@ let getJiraIssues keys baseUrl username password =
     if keys |> Seq.isEmpty then
          Seq.empty
     else
-        let query = 
+        let buildQuery queryKeys = 
             sprintf """ {"jql":"key in (%s)","startAt":0,"fields":["id","key","customfield_12121","customfield_12122","issuetype","summary","status"]} """ 
-                (keys |> String.concat ",")
+                (queryKeys |> String.concat ",")
 
         let url = sprintf "%s/rest/api/2/search/" baseUrl
         
-        let response = Http.RequestString(url, 
-                                        headers = [ BasicAuth username password; Accept HttpContentTypes.Json; ContentType "application/json;charset=utf-8" ], 
-                                        httpMethod = "POST", 
-                                        body = TextRequest query)
+        let header = [ BasicAuth username password; Accept HttpContentTypes.Json; ContentType "application/json;charset=utf-8" ]
 
-        let parsedSearch = JiraIssueSearchJson.Parse response
-        
-        parsedSearch.Issues
+        let doSearch searchKeys = 
+            try
+                Some (Http.RequestString(url, 
+                                         headers = header,
+                                         httpMethod = "POST", 
+                                         body = TextRequest (buildQuery searchKeys)))
+            with
+                | :? System.Net.WebException as ex -> printfn "Error: %s" ex.Message ; None
+
+        let parsedIssues = 
+            match doSearch keys with
+            | Some res -> JiraIssueSearchJson.Parse res |> fun i -> i.Issues
+            | None ->
+                printfn "Error: Unable to fetch all Jira keys in one request. Attempting to fetch them one by one."
+                keys
+                |> Seq.choose (fun i -> match doSearch [i] with
+                                        | Some issue -> Some (issue |> JiraIssueSearchJson.Parse |> fun p -> p.Issues)
+                                        | None -> None )
+                |> Seq.concat
+                |> Seq.toArray
+
+        parsedIssues
         |> Seq.map (fun issue -> let hendelse = 
                                     match issue.Fields.JsonValue.TryGetProperty("customfield_12122") with
                                             | Some p when p <> JsonValue.Null -> issue.Fields.Customfield12122.Value

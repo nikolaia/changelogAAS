@@ -6,7 +6,7 @@ open FSharp.Data.HttpRequestHeaders
 
 type TeamCityBuilds =  JsonProvider<TcBuildsSample>
 
-let getChangeDiff projectName oldVersion newVersion baseUrl username password =  
+let getChangeDiff projectName newVersion oldVersion baseUrl username password =  
 
     let sendBasicAuthRequest url = 
         Http.RequestString(url, headers = [ BasicAuth username password; Accept HttpContentTypes.Json ])

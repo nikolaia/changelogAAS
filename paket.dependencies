@@ -6,4 +6,5 @@ nuget Microsoft.AspNet.WebApi
 nuget Microsoft.Azure.WebJobs
 nuget Microsoft.Net.Http
 nuget Newtonsoft.Json
+nuget Suave
 nuget System.Net.Http

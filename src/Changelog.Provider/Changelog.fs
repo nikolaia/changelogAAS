@@ -13,11 +13,18 @@ let getChangesBetweenEnvironments (args : ChangelogParameters) =
     let fromEnvVersion = determineEnvironmentVersion args.ProjectName args.fromEnvironment args.octoBaseUrl args.octoApiKey
     let toEnvVersion = determineEnvironmentVersion args.ProjectName args.toEnvironment args.octoBaseUrl args.octoApiKey
 
+    printfn "Fetching changes between version %s (%s) and %s (%s)" toEnvVersion args.toEnvironment fromEnvVersion args.fromEnvironment
+
     let changes = getChangeDiff args.ProjectName fromEnvVersion toEnvVersion args.tcBaseUrl args.tcUsername args.tcPassword
+
+    let noDots (s : string) = s.Replace(".","")
 
     let commitMessages = 
         changes
-        |> Seq.collect (fun (_, _, c) -> c)
+        |> Seq.filter (fun (version, _, _) -> 
+            noDots version <= noDots fromEnvVersion
+            && noDots version >= noDots toEnvVersion)
+        |> Seq.collect (fun (_, _, changes) -> changes)
         |> Seq.map (fun c -> c.Comment)
 
     let jiraKeys = 

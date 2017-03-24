@@ -18,9 +18,9 @@ let Run (req: HttpRequestMessage , log: TraceWriter) : Task<HttpResponseMessage>
         log.Verbose(sprintf "F# HTTP trigger function processed a request. Name=%A" req.RequestUri)
 
         let input = 
-            queryParams.TryGetValue("projectName"), 
+            queryParams.TryGetValue("projectName"),
             queryParams.TryGetValue("oldestEnvironment"),
-            queryParams.TryGetValue("newestEnvironment") 
+            queryParams.TryGetValue("newestEnvironment")
 
         let res =
             match input with 
