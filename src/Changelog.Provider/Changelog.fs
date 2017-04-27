@@ -75,8 +75,8 @@ let getChangesBetweenEnvironments (args : ChangelogParameters) =
         |> Seq.map getMergeCommitsFromString
 
     {
-        fromVersion = fromEnvVersion
-        toVersion = toEnvVersion
+        FromVersion = fromEnvVersion
+        ToVersion = toEnvVersion
         Commits = mergeCommits
         Issues = jiraIssues
         HasDbMigration = packageHasDbMigration

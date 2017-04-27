@@ -30,7 +30,7 @@ let Run (req: HttpRequestMessage , log: TraceWriter) : Task<HttpResponseMessage>
                 let parameters = {
                     ProjectName = pName
                     fromEnvironment = fromEnv
-                    toEnvironment = fromEnv
+                    toEnvironment = toEnv
                     octoApiKey = System.Environment.GetEnvironmentVariable("OCTO_API_KEY")
                     octoBaseUrl = "https://oslaz-pas2-od.udir.no"
                     tcBaseUrl = "https://oslaz-pas2-int.udir.no"

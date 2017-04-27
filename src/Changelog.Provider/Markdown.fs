@@ -42,9 +42,9 @@ This list shows changes between the environments *%s* (%s) and *%s* (%s)
 
 %s""" parameters.ProjectName 
 parameters.fromEnvironment 
-changes.fromVersion 
+changes.FromVersion 
 parameters.toEnvironment 
-changes.toVersion (jiraIssuesMarkdown changes.Issues) (getMergeCommit changes.Commits) (packageHasDbMigration changes.HasDbMigration))
+changes.ToVersion (jiraIssuesMarkdown changes.Issues) (getMergeCommit changes.Commits) (packageHasDbMigration changes.HasDbMigration))
 
     let body = CommonMark.CommonMarkConverter.Convert(content);
     let site = sprintf """

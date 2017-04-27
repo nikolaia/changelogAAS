@@ -33,8 +33,8 @@ type Issue = {
 }
 
 type Changelog = {
-    fromVersion: string
-    toVersion: string
+    FromVersion: string
+    ToVersion: string
     Commits : MergeCommit seq
     Issues : Issue seq
     HasDbMigration : bool
