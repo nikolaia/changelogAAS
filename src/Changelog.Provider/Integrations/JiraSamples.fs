@@ -2,46 +2,67 @@ module JiraSamples
 
 [<Literal>]
 let JiraIssueSearchSample = """
-{                                                                                                                                                                                   
-  "expand": "names,schema",                                                                                                                                                           
-  "startAt": 0,                                                                                                                                                                       
-  "maxResults": 2,                                                                                                                                                                    
-  "total": 1,                                                                                                                                                                         
-  "issues": [                                                                                                                                                                         
-    {                                                                                                                                                                                 
-      "expand": "editmeta,renderedFields,transitions,changelog,operations",                                                                                                           
-      "id": "71749",                                                                                                                                                                  
-      "self": "https://pashjelp.udir.no/rest/api/2/issue/71749",                                                                                                                      
-      "key": "PTWOUTV-5059",                                                                                                                                                          
-      "fields": {                                                                                                                                                                     
-        "summary": "Klagekarakterer, inntakskontor",                                                                                                                                  
-        "customfield_12122": {                                                                                                                                                        
-          "self": "https://pashjelp.udir.no/rest/api/2/customFieldOption/11100",                                                                                                      
-          "value": "Oppnevning",                                                                                                                                                      
-          "id": "11100"                                                                                                                                                               
-        },                                                                                                                                                                            
-        "issuetype": {                                                                                                                                                                
-          "self": "https://pashjelp.udir.no/rest/api/2/issuetype/38",                                                                                                                 
-          "id": "38",                                                                                                                                                                 
-          "description": "A problem which impairs or prevents the functions of the product.",                                                                                         
-          "iconUrl": "https://pashjelp.udir.no/images/icons/issuetypes/bug.png",                                                                                                      
-          "name": "Bug",                                                                                                                                                              
-          "subtask": false                                                                                                                                                            
-        },                                                                                                                                                                            
-        "status": {                                                                                                                                                                   
-          "self": "https://pashjelp.udir.no/rest/api/2/status/10023",                                                                                                                 
-          "description": "This status is managed internally by JIRA Agile",                                                                                                           
-          "iconUrl": "https://pashjelp.udir.no/images/icons/subtask.gif",                                                                                                             
-          "name": "I test",                                                                                                                                                           
-          "id": "10023"                                                                                                                                                               
-        },                                                                                                                                                                            
-        "customfield_12121": {                                                                                                                                                        
-          "self": "https://pashjelp.udir.no/rest/api/2/customFieldOption/10600",                                                                                                      
-          "value": "S/S",                                                                                                                                                             
-          "id": "10600"                                                                                                                                                               
-        }                                                                                                                                                                             
-      }                                                                                                                                                                               
-    }                                                                                                                                                                                 
-  ]                                                                                                                                                                                   
+{
+  "expand": "names,schema",
+  "startAt": 0,
+  "maxResults": 50,
+  "total": 1,
+  "issues": [
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,transitions,renderedFields",
+      "id": "14455",
+      "self": "https://jira.udir.no/rest/api/2/issue/14455",
+      "key": "PASX-1526",
+      "fields": {
+        "summary": "Se eksamensgjennomføringsdata for vgs som tar gsk eksamen",
+        "issuetype": {
+          "self": "https://jira.udir.no/rest/api/2/issuetype/10001",
+          "id": "10001",
+          "description": "gh.issue.story.desc",
+          "iconUrl": "https://jira.udir.no/images/icons/issuetypes/story.svg",
+          "name": "Story",
+          "subtask": false
+        },
+        "customfield_10205": [
+          {
+            "self": "https://jira.udir.no/rest/api/2/customFieldOption/10131",
+            "value": "Generelt",
+            "id": "10131"
+          }
+        ],
+        "fixVersions": [
+          {
+            "self": "https://jira.udir.no/rest/api/2/version/10249",
+            "id": "10249",
+            "name": "\t Gjennomføring og sensur",
+            "archived": false,
+            "released": false
+          },
+          {
+            "self": "https://jira.udir.no/rest/api/2/version/10245",
+            "id": "10245",
+            "name": "Vår 2017",
+            "archived": false,
+            "released": false
+          }
+        ],
+        "labels": ["label 1","label 2","label 3"],
+        "status": {
+          "self": "https://jira.udir.no/rest/api/2/status/10003",
+          "description": "This status is managed internally by JIRA Software",
+          "iconUrl": "https://jira.udir.no/",
+          "name": "Peer review",
+          "id": "10003",
+          "statusCategory": {
+            "self": "https://jira.udir.no/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        }
+      }
+    }
+  ]
 }
 """

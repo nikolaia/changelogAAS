@@ -31,25 +31,23 @@ let getChangesBetweenEnvironments (args : ChangelogParameters) =
         commitMessages
         |> Seq.choose (fun commit ->
             match commit with
-            | jira when jira.Contains "PTWOUTV-" -> Some jira
+            | jira when jira.Contains "IDPF-" -> Some jira
+            | jira when jira.Contains "PASX-" -> Some jira
+            | jira when jira.Contains "PASP-" -> Some jira
             | _ -> None )
         |> Seq.map (fun commit ->
-            let pattern = "PTWOUTV-(\d+)"
-            let number = Regex.Match(commit, pattern).Groups.[1].Value
-            sprintf "PTWOUTV-%s" number )
-
+            let pattern = "(IDPF|PASX|PASP)-(\d+)"
+            let matches = Regex.Match(commit, pattern)
+            let key = matches.Groups.[1].Value
+            let number = matches.Groups.[2].Value
+            sprintf "%s-%s" key number )
+    
     let jiraIssues = getJiraIssues jiraKeys args.jiraBaseUrl args.jiraUsername args.jiraPassword
 
     let tryParseMergeCommit (commit : string) =
         match commit with
         | merge when merge.Contains "Merge pull request #" -> Some merge
         | _ -> None
-
-    let tryParseJiraIssueInCommit (commit : string) =
-        match commit with
-        | jira when jira.Contains "PTWOUTV-" -> Some jira
-        | _ -> None
-
 
     let getMergeCommitsFromString mergeCommit = 
         let matches = Regex.Match(mergeCommit, "Merge pull request #(\d+) from (?:.+\/)(.+[\n\r]+)\s+((.|[\s])+)$")
@@ -77,6 +75,8 @@ let getChangesBetweenEnvironments (args : ChangelogParameters) =
         |> Seq.map getMergeCommitsFromString
 
     {
+        fromVersion = fromEnvVersion
+        toVersion = toEnvVersion
         Commits = mergeCommits
         Issues = jiraIssues
         HasDbMigration = packageHasDbMigration

@@ -9,6 +9,7 @@ open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 open System.IO
 open Changelog
+open MarkdownToHtml
 
 let parameters = {
     ProjectName = "UDIR.PAS2"
@@ -19,7 +20,7 @@ let parameters = {
     tcBaseUrl = "https://oslaz-pas2-int.udir.no"
     tcUsername = System.Environment.GetEnvironmentVariable("TEAMCITY_USERNAME")
     tcPassword = System.Environment.GetEnvironmentVariable("TEAMCITY_PASSWORD")
-    jiraBaseUrl = "https://pashjelp.udir.no"
+    jiraBaseUrl = "https://jira.udir.no"
     jiraUsername = System.Environment.GetEnvironmentVariable("JIRA_USERNAME")
     jiraPassword = System.Environment.GetEnvironmentVariable("JIRA_PASSWORD")
 }
@@ -34,12 +35,21 @@ let getChanges() : WebPart =
         return! OK json ctx
     }
 
+let getChangesAsMarkdown() : WebPart =
+  fun (ctx : HttpContext) ->
+    async {
+        let changes = Changelog.getChangesBetweenEnvironments parameters
+        let response = MarkdownToHtml.markdownAsHtmlPageResponse parameters changes
+        let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+        return! OK content ctx
+    }
+
 [<EntryPoint>]
 let main argv =
     let app =
           choose [ 
             GET >=> path "/api" >=> getChanges() >=> setMimeType "application/json; charset=utf-8"
-            GET >=> path "/" >=> Files.file "index.html"
+            GET >=> path "/" >=> getChangesAsMarkdown()
             GET >=> Files.browseHome
             RequestErrors.NOT_FOUND "Page not found." 
           ]
