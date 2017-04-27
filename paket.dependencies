@@ -8,3 +8,4 @@ nuget Microsoft.Net.Http
 nuget Newtonsoft.Json
 nuget Suave
 nuget System.Net.Http
+nuget CommonMark.NET

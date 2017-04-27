@@ -25,13 +25,16 @@ type Issue = {
     Key : string
     Summary : string
     Issuetype : string
-    Hendelse : string
-    Omraade : string
+    FixVersions : string
+    ApplicationUser: string
+    Labels : string
     Status : string
     Link : string
 }
 
 type Changelog = {
+    FromVersion: string
+    ToVersion: string
     Commits : MergeCommit seq
     Issues : Issue seq
     HasDbMigration : bool

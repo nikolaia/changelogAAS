@@ -11,8 +11,23 @@ let getJiraIssues keys baseUrl username password =
          Seq.empty
     else
         let buildQuery queryKeys = 
-            sprintf """ {"jql":"key in (%s)","startAt":0,"fields":["id","key","customfield_12121","customfield_12122","issuetype","summary","status"]} """ 
-                (queryKeys |> String.concat ",")
+            (sprintf """ 
+            {  
+                "jql":"key in (%s)",
+                "startAt":0,
+                "fields":[  
+                    "id",
+                    "key",
+                    "fixVersions",
+                    "customfield_10205",
+                    "labels",
+                    "issuetype",
+                    "summary",
+                    "status"
+                ]
+            }
+            """
+            (queryKeys |> String.concat ","))
 
         let url = sprintf "%s/rest/api/2/search/" baseUrl
         
@@ -40,19 +55,24 @@ let getJiraIssues keys baseUrl username password =
                 |> Seq.toArray
 
         parsedIssues
-        |> Seq.map (fun issue -> let hendelse = 
-                                    match issue.Fields.JsonValue.TryGetProperty("customfield_12122") with
-                                            | Some p when p <> JsonValue.Null -> issue.Fields.Customfield12122.Value
-                                            | _ -> ""
-                                 let omraade =
-                                    match issue.Fields.JsonValue.TryGetProperty("customfield_12121") with
-                                            | Some p when p <> JsonValue.Null -> issue.Fields.Customfield12121.Value
-                                            | _ -> ""
+        |> Seq.map (fun issue -> 
+            let fixVersions =
+                match issue.Fields.JsonValue.TryGetProperty("fixVersions") with
+                | Some p when p <> JsonValue.Null -> issue.Fields.FixVersions |> Seq.map (fun el -> el.Name) |> String.concat ", "
+                | _ -> ""
 
-                                 { Key = issue.Key
-                                   Summary = issue.Fields.Summary
-                                   Issuetype = issue.Fields.Issuetype.Name
-                                   Omraade = omraade
-                                   Hendelse = hendelse
-                                   Status = issue.Fields.Status.Name
-                                   Link = sprintf "%s/browse/%s" baseUrl issue.Key } )
+            let applicationUser =
+                match issue.Fields.JsonValue.TryGetProperty("customfield_10205") with
+                | Some p when p <> JsonValue.Null -> issue.Fields.Customfield10205 |> Seq.map (fun el -> el.Value) |> String.concat ", "
+                | _ -> ""
+                                
+            { 
+                Key = issue.Key
+                Summary = issue.Fields.Summary
+                Issuetype = issue.Fields.Issuetype.Name
+                FixVersions = fixVersions
+                ApplicationUser = applicationUser
+                Labels = issue.Fields.Labels |> String.concat ","
+                Status = issue.Fields.Status.Name
+                Link = sprintf "%s/browse/%s" baseUrl issue.Key 
+            })
