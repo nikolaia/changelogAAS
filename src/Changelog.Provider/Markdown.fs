@@ -8,8 +8,15 @@ open System.Text
 let addNewline s = s + System.Environment.NewLine
 
 let getJiraMarkdownStringFromIssue issue =
-    sprintf "* [%s](https://jira.udir.no/browse/%s) %s (_%s_, _%s_, _%s_, _%s_)" 
-        issue.Key issue.Key issue.Summary issue.Issuetype issue.FixVersions issue.Labels issue.Status 
+    let color =
+        match issue.Issuetype with
+        | "Bug" -> "#CC0000"
+        | "Story" -> "#8D6811"
+        | "Task" -> "#8DC9CB"
+        | _ -> "#333333"
+
+    sprintf "* [%s](https://jira.udir.no/browse/%s) %s (<font color='%s'>__%s_</font>,_%s_, _%s_, _%s_)" 
+        issue.Key issue.Key issue.Summary color issue.Issuetype issue.FixVersions issue.Labels issue.Status 
 let jiraIssuesMarkdown issues =
     issues
     |> Seq.map (getJiraMarkdownStringFromIssue >> addNewline)
