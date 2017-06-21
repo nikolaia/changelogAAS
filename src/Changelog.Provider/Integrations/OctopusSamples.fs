@@ -29,7 +29,7 @@ let OctopusProjectListSample = """
     "LifecycleId": "lifecycles-97",
     "AutoCreateRelease": false,
     "LastModifiedOn": "2015-12-10T12:49:05.153+00:00",
-    "LastModifiedBy": "nan@ls.no",
+    "LastModifiedBy": "someone@example.com",
     "Links": {
         "Self": "/api/projects/projects-161",
         "Releases": "/api/projects/projects-161/releases{/version}{?skip}",
@@ -50,7 +50,7 @@ let OctopusProjectSample = """
     "Environments": [
     {
         "Id": "Environments-97",
-        "Name": "PAS2-DEV"
+        "Name": "DEV"
     }
     ],
     "Releases": [
@@ -71,18 +71,6 @@ let OctopusProjectSample = """
             {
             "StepName": "Deploy web HTTP",
             "Version": "1.0.105"
-            },
-            {
-            "StepName": "Migrate database",
-            "Version": "1.0.104"
-            },
-            {
-            "StepName": "Deploy web API HTTPS",
-            "Version": "1.0.104"
-            },
-            {
-            "StepName": "Deploy web API HTTP",
-            "Version": "1.0.104"
             }
         ],
         "Version": "1.0.105",
@@ -103,30 +91,66 @@ let OctopusProjectSample = """
         }
         },
         "Deployments": {
-        "Environments-97": {
-            "Id": "deployments-8992",
-            "ProjectId": "projects-481",
-            "EnvironmentId": "Environments-97",
-            "ReleaseId": "releases-4492",
-            "DeploymentId": "deployments-8992",
-            "TaskId": "ServerTasks-32731",
-            "ReleaseVersion": "1.0.105",
-            "Created": "2016-09-28T11:35:20.183+00:00",
-            "QueueTime": "2016-09-28T11:35:20.183+00:00",
-            "CompletedTime": "2016-09-28T11:36:56.496+00:00",
-            "State": "Success",
-            "HasPendingInterruptions": false,
-            "HasWarningsOrErrors": false,
-            "ErrorMessage": "",
-            "Duration": "2 minutes",
-            "IsCurrent": true,
-            "IsPrevious": false,
-            "Links": {
-            "Self": "/api/deployments/deployments-8992",
-            "Release": "/api/releases/releases-4492",
-            "Task": "/api/tasks/ServerTasks-32731"
-            }
-        }
+            "Environments-28": [
+                {
+                    "Id": "Deployments-2680",
+                    "ProjectId": "Projects-10",
+                    "EnvironmentId": "Environments-28",
+                    "ReleaseId": "Releases-1274",
+                    "DeploymentId": "Deployments-2680",
+                    "TaskId": "ServerTasks-3006",
+                    "TenantId": null,
+                    "ChannelId": null,
+                    "ReleaseVersion": "1.0.3949",
+                    "Created": "2017-06-02T06:15:27.873+00:00",
+                    "QueueTime": "2017-06-02T06:15:27.857+00:00",
+                    "CompletedTime": "2017-06-02T06:23:23.571+00:00",
+                    "State": "Success",
+                    "HasPendingInterruptions": false,
+                    "HasWarningsOrErrors": false,
+                    "ErrorMessage": "",
+                    "Duration": "8 minutes",
+                    "IsCurrent": false,
+                    "IsPrevious": false,
+                    "IsCompleted": true,
+                    "Links": {
+                        "Self": "/api/deployments/Deployments-2680",
+                        "Release": "/api/releases/Releases-1274",
+                        "Tenant": "/api/tenants/",
+                        "Task": "/api/tasks/ServerTasks-3006"
+                    }
+                }
+            ],
+            "Environments-29": [
+                {
+                    "Id": "Deployments-2693",
+                    "ProjectId": "Projects-10",
+                    "EnvironmentId": "Environments-29",
+                    "ReleaseId": "Releases-1274",
+                    "DeploymentId": "Deployments-2693",
+                    "TaskId": "ServerTasks-3019",
+                    "TenantId": null,
+                    "ChannelId": null,
+                    "ReleaseVersion": "1.0.3949",
+                    "Created": "2017-06-02T21:34:43.902+00:00",
+                    "QueueTime": "2017-06-02T21:34:43.887+00:00",
+                    "CompletedTime": "2017-06-02T21:40:38.126+00:00",
+                    "State": "Success",
+                    "HasPendingInterruptions": false,
+                    "HasWarningsOrErrors": false,
+                    "ErrorMessage": "",
+                    "Duration": "6 minutes",
+                    "IsCurrent": false,
+                    "IsPrevious": false,
+                    "IsCompleted": true,
+                    "Links": {
+                        "Self": "/api/deployments/Deployments-2693",
+                        "Release": "/api/releases/Releases-1274",
+                        "Tenant": "/api/tenants/",
+                        "Task": "/api/tasks/ServerTasks-3019"
+                    }
+                }
+            ]
         },
         "NextDeployments": [
         "Environments-33",

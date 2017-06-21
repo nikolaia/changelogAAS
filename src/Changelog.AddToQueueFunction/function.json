@@ -1,0 +1,19 @@
+{
+    "scriptFile": "Run.fsx",
+    "bindings": [
+        {
+            "authLevel": "function",
+            "name": "req",
+            "type": "httpTrigger",
+            "direction": "in"
+        },
+        {
+            "type": "queue",
+            "name": "$return",
+            "queueName": "changelog",
+            "connection": "mygroundbreaking_STORAGE",
+            "direction": "out"
+        }
+    ],
+    "disabled": false
+}

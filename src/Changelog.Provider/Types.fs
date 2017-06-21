@@ -1,16 +1,17 @@
 [<AutoOpen>]
 module Types
 
-type ChangelogParameters = {
+type ChangelogInput = {
     ProjectName : string
-    fromEnvironment : string
-    toEnvironment : string
+    FromEnvironmentName : string
+    ToEnvironmentName : string
+}
+
+type ChangelogParameters = {
+    input : ChangelogInput
     octoApiKey : string
-    octoBaseUrl : string
-    tcBaseUrl : string
     tcUsername : string
     tcPassword : string
-    jiraBaseUrl : string
     jiraUsername : string
     jiraPassword : string
 }
@@ -21,20 +22,57 @@ type MergeCommit = {
     link : string
 }
 
+type IssueType =
+    | Bug
+    | Story
+    | Task
+    | Unknown of string
+with 
+    static member FromString s = 
+        match s with
+         | "Bug" -> Bug
+         | "Story" -> Story
+         | "Task" -> Task
+         | s -> Unknown s
+    static member ToString s = 
+        match s with
+         | Bug -> "Bug"
+         | Story -> "Story"
+         | Task -> "Task"
+         | Unknown s -> s
+    static member GetColor it =
+        match it with
+        | Bug -> "#CC0000"
+        | Story -> "#8D6811"
+        | Task -> "#8DC9CB"
+        | _ -> "#333333" 
+
+type Build = {
+    Number : string
+    Status : string
+    Comments : string seq
+}
+
 type Issue = {
     Key : string
     Summary : string
-    Issuetype : string
+    Issuetype : IssueType
     FixVersions : string
     ApplicationUser: string
     Labels : string
     Status : string
     Link : string
+} 
+
+type Environment = {
+    Name : string
+    Version : string
 }
 
 type Changelog = {
-    FromVersion: string
-    ToVersion: string
+    ProjectName : string
+    FromEnvironment : Environment
+    ToEnvironment : Environment
     Commits : MergeCommit seq
     Issues : Issue seq
     HasDbMigration : bool

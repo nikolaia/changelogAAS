@@ -11,23 +11,26 @@ let determineEnvironmentVersion projectName environmentName baseUrl apiKey  =
 
     let octoHeader = [ "X-Octopus-ApiKey", apiKey; Accept HttpContentTypes.Json ]
 
-    let octoProjectListJson =
-        Http.RequestString(sprintf "%s/api/projects" baseUrl, headers = octoHeader)
+    let httpRequestOctopus subUrl =
+        let url = sprintf "%s/%s" baseUrl subUrl
+        printfn "Octopus Deploy: Calling %s to get information about %s in environment %s" url projectName environmentName
+        Http.RequestString(url, headers = octoHeader)
 
     let projectId =
-        (OctoProjectList.Parse octoProjectListJson).Items
+        httpRequestOctopus "api/projects"
+        |> OctoProjectList.Parse
+        |> fun projectList -> projectList.Items
         |> Seq.tryFind (fun p -> p.Name = projectName)
         |> function
             | Some p -> p.Id
             | None -> failwith (sprintf "Could not find the project %s" projectName)
 
-    let octoProjectJson =
-        let url = sprintf "%s/api/progression/%s" baseUrl projectId
-        Http.RequestString(url, headers = octoHeader)
+    let octoProject =
+        sprintf "api/progression/%s" projectId
+        |> httpRequestOctopus
+        |> OctoProject.Parse
 
-    let octoProject = OctoProject.Parse octoProjectJson
-
-    let environmentId = 
+    let environmentId =
         octoProject
         |> fun p -> p.Environments
         |> Seq.tryFind (fun e -> e.Name = environmentName)
@@ -35,10 +38,11 @@ let determineEnvironmentVersion projectName environmentName baseUrl apiKey  =
             | Some e -> e.Id
             | None -> failwith (sprintf "Could not find environment %s" environmentName)
 
-    OctoProject.Parse octoProjectJson
+    octoProject
     |> fun p -> p.Releases
-    |> Seq.tryFind (fun r -> match r.Deployments.JsonValue.TryGetProperty environmentId with Some _ -> true | None -> false)
+    |> Seq.choose (fun r -> r.Deployments.JsonValue.TryGetProperty environmentId)
+    |> Seq.collect (fun r -> r.AsArray())
+    |> Seq.tryFind (fun r -> r.["IsCurrent"].AsBoolean())
     |> function
-        | Some r -> r.Release.Version
-        | None -> failwith (sprintf "Could not find release for environment with id %s and name %s" environmentId environmentName) 
-
+        | Some r -> r.["ReleaseVersion"].AsString()
+        | None -> failwith (sprintf "Could not find release for environment with id %s and name %s" environmentId environmentName)

@@ -1,0 +1,15 @@
+--- 
+jiraUrl: "https://jira.example.com"
+octoUrl: "https://octopusdeploy.example.com"
+projects: 
+  - 
+    githubUrl: "https://github.com/github/example1"
+    jiraKey: EXA1
+    octoDeployName: EXAMPLE1
+    teamcityName: Example1_BuildAndRelease
+  - 
+    githubUrl: "https://github.com/github/example2"
+    jiraKey: EXA2
+    octoDeployName: EXAMPLE2
+    teamcityName: Example2_BuildAndRelease
+teamcityUrl: "https://teamcity.example.com"

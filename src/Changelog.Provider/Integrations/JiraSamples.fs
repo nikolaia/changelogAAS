@@ -11,50 +11,50 @@ let JiraIssueSearchSample = """
     {
       "expand": "operations,versionedRepresentations,editmeta,changelog,transitions,renderedFields",
       "id": "14455",
-      "self": "https://jira.udir.no/rest/api/2/issue/14455",
-      "key": "PASX-1526",
+      "self": "https://jira.example.com/rest/api/2/issue/14455",
+      "key": "EXA1-1526",
       "fields": {
-        "summary": "Se eksamensgjennomføringsdata for vgs som tar gsk eksamen",
+        "summary": "This is an example summary for an issue",
         "issuetype": {
-          "self": "https://jira.udir.no/rest/api/2/issuetype/10001",
+          "self": "https://jira.example.com/rest/api/2/issuetype/10001",
           "id": "10001",
           "description": "gh.issue.story.desc",
-          "iconUrl": "https://jira.udir.no/images/icons/issuetypes/story.svg",
+          "iconUrl": "https://jira.example.com/images/icons/issuetypes/story.svg",
           "name": "Story",
           "subtask": false
         },
         "customfield_10205": [
           {
-            "self": "https://jira.udir.no/rest/api/2/customFieldOption/10131",
-            "value": "Generelt",
+            "self": "https://jira.example.com/rest/api/2/customFieldOption/10131",
+            "value": "customField Example",
             "id": "10131"
           }
         ],
         "fixVersions": [
           {
-            "self": "https://jira.udir.no/rest/api/2/version/10249",
+            "self": "https://jira.example.com/rest/api/2/version/10249",
             "id": "10249",
-            "name": "\t Gjennomføring og sensur",
+            "name": "\t Another fixVersion Name where someone put a tab-char in front. Great work!",
             "archived": false,
             "released": false
           },
           {
-            "self": "https://jira.udir.no/rest/api/2/version/10245",
+            "self": "https://jira.example.com/rest/api/2/version/10245",
             "id": "10245",
-            "name": "Vår 2017",
+            "name": "Some fixVersion Name",
             "archived": false,
             "released": false
           }
         ],
         "labels": ["label 1","label 2","label 3"],
         "status": {
-          "self": "https://jira.udir.no/rest/api/2/status/10003",
+          "self": "https://jira.example.com/rest/api/2/status/10003",
           "description": "This status is managed internally by JIRA Software",
-          "iconUrl": "https://jira.udir.no/",
+          "iconUrl": "https://jira.example.com/",
           "name": "Peer review",
           "id": "10003",
           "statusCategory": {
-            "self": "https://jira.udir.no/rest/api/2/statuscategory/4",
+            "self": "https://jira.example.com/rest/api/2/statuscategory/4",
             "id": 4,
             "key": "indeterminate",
             "colorName": "yellow",

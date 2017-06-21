@@ -1,10 +1,16 @@
 source https://www.nuget.org/api/v2
 nuget FAKE
+nuget FSharp.Configuration
 nuget FSharp.Core
 nuget FSharp.Data
+nuget FSharp.Interop.Dynamic
 nuget Microsoft.AspNet.WebApi
+nuget Microsoft.Azure.KeyVault
 nuget Microsoft.Azure.WebJobs
+nuget Microsoft.IdentityModel.Clients.ActiveDirectory
 nuget Microsoft.Net.Http
+nuget Microsoft.Rest.ClientRuntime
+nuget Microsoft.Rest.ClientRuntime.Azure
 nuget Newtonsoft.Json
 nuget Suave
 nuget System.Net.Http

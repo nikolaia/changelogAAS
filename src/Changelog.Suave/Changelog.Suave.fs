@@ -9,18 +9,17 @@ open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 open System.IO
 open Changelog
-open MarkdownToHtml
+open HumanReadable
+
+let input =  { ProjectName = "Project #1"
+               FromEnvironmentName = "QA"
+               ToEnvironmentName = "PROD" }
 
 let parameters = {
-    ProjectName = "UDIR.PAS2"
-    fromEnvironment = "PAS2-QA"
-    toEnvironment = "PAS2-PROD"
+    input = input
     octoApiKey = System.Environment.GetEnvironmentVariable("OCTO_API_KEY")
-    octoBaseUrl = "https://oslaz-pas2-od.udir.no"
-    tcBaseUrl = "https://oslaz-pas2-int.udir.no"
     tcUsername = System.Environment.GetEnvironmentVariable("TEAMCITY_USERNAME")
     tcPassword = System.Environment.GetEnvironmentVariable("TEAMCITY_PASSWORD")
-    jiraBaseUrl = "https://jira.udir.no"
     jiraUsername = System.Environment.GetEnvironmentVariable("JIRA_USERNAME")
     jiraPassword = System.Environment.GetEnvironmentVariable("JIRA_PASSWORD")
 }
@@ -39,9 +38,8 @@ let getChangesAsMarkdown() : WebPart =
   fun (ctx : HttpContext) ->
     async {
         let changes = Changelog.getChangesBetweenEnvironments parameters
-        let response = MarkdownToHtml.markdownAsHtmlPageResponse parameters changes
-        let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-        return! OK content ctx
+        let html = HumanReadable.changelogToHtml changes
+        return! OK html ctx
     }
 
 [<EntryPoint>]

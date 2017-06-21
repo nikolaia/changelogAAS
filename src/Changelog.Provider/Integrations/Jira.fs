@@ -29,7 +29,7 @@ let getJiraIssues keys baseUrl username password =
             """
             (queryKeys |> String.concat ","))
 
-        let url = sprintf "%s/rest/api/2/search/" baseUrl
+        let url = sprintf "%srest/api/2/search/" baseUrl
         
         let header = [ BasicAuth username password; Accept HttpContentTypes.Json; ContentType "application/json;charset=utf-8" ]
 
@@ -69,10 +69,10 @@ let getJiraIssues keys baseUrl username password =
             { 
                 Key = issue.Key
                 Summary = issue.Fields.Summary
-                Issuetype = issue.Fields.Issuetype.Name
+                Issuetype = IssueType.FromString issue.Fields.Issuetype.Name
                 FixVersions = fixVersions
                 ApplicationUser = applicationUser
                 Labels = issue.Fields.Labels |> String.concat ","
                 Status = issue.Fields.Status.Name
-                Link = sprintf "%s/browse/%s" baseUrl issue.Key 
+                Link = sprintf "%sbrowse/%s" baseUrl issue.Key 
             })
