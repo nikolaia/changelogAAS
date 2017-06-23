@@ -2,7 +2,7 @@
 
 Integrate with the APIs of your deployment pipeline to generate changelogs to prevent adding changelog generation into the pipeline itself.
 
-Currently works with a pipeline consisting of Octopus Deploy (OD), TeamCity (TC) and JIRA.
+Currently works with a pipeline consisting of Octopus Deploy (OD), TeamCity (TC) and JIRA, but it should be easy to swap any of them out. The goal is to make a pluggable solution where you choose which systems you want to use.
 
 ## Configuration
 
@@ -36,5 +36,7 @@ There is also a Suave example for self-hosting at `src/Changelog.Suave/` which c
 
 ## TODO
 
-* More documentation
+* More documentation and examples
+* Publish provider on NuGet
+* Make adapters/providers pluggable to support more sources
 * Add ARM-template for Azure Functions infrastructure
