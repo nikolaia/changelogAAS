@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>6eeba1f2-6777-44b4-b04b-7006643c0894</ProjectGuid>
+    <ProjectGuid>{6EEBA1F2-6777-44B4-B04B-7006643C0894}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Changelog.Suave</RootNamespace>
     <AssemblyName>Changelog.Suave</AssemblyName>
@@ -46,9 +46,6 @@
     <Content Include="clientApp\dist*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Changelog.Provider\Changelog.Provider.fsproj" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">14</MinimumVisualStudioVersion>
