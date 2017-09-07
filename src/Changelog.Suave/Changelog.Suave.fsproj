@@ -47,6 +47,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Changelog.Provider\Changelog.Provider.fsproj">
+      <Name>Changelog.Provider</Name>
+      <Project>{08cf6ee4-da30-4a41-9c59-cd72b784ad96}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">14</MinimumVisualStudioVersion>
   </PropertyGroup>
