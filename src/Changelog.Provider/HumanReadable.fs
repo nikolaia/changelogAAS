@@ -11,7 +11,7 @@ let private addNewline s = s + System.Environment.NewLine
 let private getJiraMarkdownStringFromIssue issue =
     let color = IssueType.GetColor issue.Issuetype
 
-    sprintf "* [%s](%s) %s (<font color='%s'>__%s_</font>,_%s_, _%s_, _%s_)" 
+    sprintf "* [%s](%s) %s (<font color='%s'>_%s_</font>,_%s_, _%s_, _%s_)" 
         issue.Key 
         issue.Link
         issue.Summary 
