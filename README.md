@@ -1,8 +1,9 @@
 # Changelog-as-a-Service
+[![Build status](https://ci.appveyor.com/api/projects/status/ngga2c61odbj71io/branch/master?svg=true)](https://ci.appveyor.com/project/nikolaia/changelogaas/branch/master)
 
 Integrate with the APIs of your deployment pipeline to generate changelogs to prevent adding changelog generation into the pipeline itself.
 
-Currently works with a pipeline consisting of Octopus Deploy (OD), TeamCity (TC) and JIRA, but it should be easy to swap any of them out. The goal is to make a pluggable solution where you choose which systems you want to use.
+Currently works with a pipeline consisting of Octopus Deploy (OD), TeamCity (TC) and JIRA, but it should be easy to swap any of them out. The goal is to make an adaptable solution where you choose which systems you want to use.
 
 ## Configuration
 
@@ -28,15 +29,13 @@ projects:
 teamcityUrl: "https://teamcity.example.com"
 ```
 
-## Hosting
+## Hosting / Usage examples
 
-There are three simple Azure Functions for hosting it on Azure Functions (`src/AzureFunctions`). It uses queues to make a response fast for whatever system is triggering the generation and uses SendGrid in the other end to send an e-mail with the changelog to a given address. Generated changelog are saved as a JSON-document in Cosmos DB.
-
-There is also a Suave example for self-hosting at `src/Changelog.Suave/` which can produce both JSON and human readable text.
+For different examples of hosting the provider (Azure Functions, Suave etc.), check out the `examples` folder.
 
 ## TODO
 
 * More documentation and examples
 * Publish provider on NuGet
-* Make adapters/providers pluggable to support more sources
-* Add ARM-template for Azure Functions infrastructure
+* Make integrations into adapters/providers to support more sources
+* Add ARM-template for Azure Functions infrastructure in example

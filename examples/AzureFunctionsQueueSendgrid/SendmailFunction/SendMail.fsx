@@ -2,13 +2,13 @@
 
 #I "/usr/local/lib/node_modules/azure-functions-core-tools/bin/"
 #r "Microsoft.Azure.Webjobs.Host.dll"
-#I "../../packages/FSharp.Interop.Dynamic/lib/portable-net45+sl50+win/"
+#I "../../../packages/FSharp.Interop.Dynamic/lib/portable-net45+sl50+win/"
 #r "FSharp.Interop.Dynamic.dll"
-#I "../../packages/Dynamitey/lib/net40/"
+#I "../../../packages/Dynamitey/lib/net40/"
 #r "Dynamitey.dll"
 #r "System.Net.Http.dll"
 #r "System.Net.Http.Formatting.dll"
-#load "../Changelog.Provider/Types.fs"
+#load "../../../src/Changelog.Provider/Types.fs"
 
 #else
 

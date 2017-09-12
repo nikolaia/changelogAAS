@@ -4,10 +4,10 @@
 #r "Microsoft.Azure.Webjobs.Host.dll"
 #r "System.Net.Http.dll"
 #r "System.Net.Http.Formatting.dll"
-#I "../../packages/Microsoft.AspNet.WebApi.WebHost/lib/net45/"
+#I "../../../packages/Microsoft.AspNet.WebApi.WebHost/lib/net45/"
 #r "System.Web.Http.WebHost.dll"
 
-#I "../../build/Provider"
+#I "../../../build/Provider"
 
 #endif
 

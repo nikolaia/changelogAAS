@@ -6,9 +6,9 @@ module MarkdownToHtml
 #r "Microsoft.Azure.Webjobs.Host.dll"
 #r "System.Net.Http.dll"
 #r "System.Net.Http.Formatting.dll"
-#I "../../packages/CommonMark.NET/lib/net45/"
+#I "../../../packages/CommonMark.NET/lib/net45/"
 #r "CommonMark.dll"
-#load "../Changelog.Provider/Types.fs"
+#load "../../../src/Changelog.Provider/Types.fs"
 
 #else
 

@@ -7,6 +7,7 @@ nuget FSharp.Interop.Dynamic
 nuget Microsoft.AspNet.WebApi
 nuget Microsoft.Azure.KeyVault
 nuget Microsoft.Azure.WebJobs
+nuget Microsoft.Azure.WebJobs.Extensions
 nuget Microsoft.IdentityModel.Clients.ActiveDirectory
 nuget Microsoft.Net.Http
 nuget Microsoft.Rest.ClientRuntime
