@@ -7,7 +7,7 @@ open PaketTemplate
 // Directories
 let sourceDir = __SOURCE_DIRECTORY__
 let buildDir  = sprintf "%s/build/" sourceDir
-let deployDir = sprintf "%s/deploy/" sourceDir
+let artifactDir = sprintf "%s/artifacts/" sourceDir
 
 type Application = private {
     Name : string
@@ -40,7 +40,7 @@ let paketTemplate p =  { p with TemplateFilePath = Some (sprintf "%s/%s/paket.te
 
 // Targets
 Target "Clean" (fun _ ->
-    CleanDirs [buildDir; deployDir]
+    CleanDirs [buildDir; artifactDir]
 )
 
 Target "Build" <| fun _ ->
@@ -48,15 +48,15 @@ Target "Build" <| fun _ ->
     |> MSBuildRelease (appBuildDir app.Name) "Build"
     |> Log "Build-Output: "
 
-Target "Deploy" (fun _ ->
+Target "Pack" (fun _ ->
     PaketTemplate paketTemplate
-    Paket.Pack (fun p -> { p with Version = version; OutputPath = "./deploy" })
+    Paket.Pack (fun p -> { p with Version = version; OutputPath = "./artifacts" })
 )
 
 // Build order
 "Clean"
   ==> "Build"
-  ==> "Deploy"
+  ==> "Pack"
 
 // start build
 RunTargetOrDefault "Build"

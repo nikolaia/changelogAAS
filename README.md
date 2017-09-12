@@ -1,4 +1,5 @@
 # Changelog-as-a-Service
+[![Build status](https://ci.appveyor.com/api/projects/status/ngga2c61odbj71io/branch/master?svg=true)](https://ci.appveyor.com/project/nikolaia/changelogaas/branch/master)
 
 Integrate with the APIs of your deployment pipeline to generate changelogs to prevent adding changelog generation into the pipeline itself.
 
