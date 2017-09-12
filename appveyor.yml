@@ -6,5 +6,10 @@ cache:
 
 test: off
 
+branches:
+  # whitelist
+  only:
+    - master
+
 artifacts:
   - path: deploy\*.nupkg

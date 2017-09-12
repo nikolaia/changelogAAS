@@ -46,8 +46,7 @@ Target "Clean" (fun _ ->
 Target "Build" <| fun _ ->
     !! app.Path
     |> MSBuildRelease (appBuildDir app.Name) "Build"
-    |> Log "Build-Output: " 
-    CopyFile (sprintf "%s/%s/config.yaml" buildDir app.Name) "./config/config.yaml" 
+    |> Log "Build-Output: "
 
 Target "Deploy" (fun _ ->
     PaketTemplate paketTemplate
