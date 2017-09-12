@@ -1,0 +1,20 @@
+﻿{
+    "scriptFile": "Changelog.PreCompiledFunction.dll",
+    "entryPoint": "Changelog.PreCompiledFunction.Run",
+    "bindings": [
+        {
+            "type": "httpTrigger",
+            "direction": "in",
+            "name": "req",
+            "methods": ["post"],
+            "route": "changelog/{style:alpha}",
+            "authLevel": "function"
+        },
+        {
+            "name": "$return",
+            "type": "http",
+            "direction": "out"
+        }
+    ],
+    "disabled": false
+}
