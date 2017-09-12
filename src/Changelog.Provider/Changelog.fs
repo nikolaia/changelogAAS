@@ -51,16 +51,13 @@ let getChangesBetweenEnvironments (args : ChangelogParameters) =
     // from all projects, not just the provided projectName)
     let jiraKeys = 
         commitMessages
-        |> Seq.map (fun commit ->
+        |> Seq.collect (fun commit ->
             config.projects 
             |> Seq.map (fun p -> p.jiraKey)
             |> String.concat "|"
             |> sprintf "(%s)-(\d+)"
-            |> fun pattern -> Regex.Match(commit, pattern)
-            |> fun matches ->
-                let key = matches.Groups.[1].Value
-                let number = matches.Groups.[2].Value
-                sprintf "%s-%s" key number )
+            |> fun pattern -> seq { for x in Regex.Matches(commit,pattern) do yield x.Value } )
+        |> Seq.distinct
     
     // Fetch more information about the issues parsed from the commit-
     // messages from the JIRA API

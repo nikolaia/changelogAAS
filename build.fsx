@@ -35,8 +35,11 @@ let paketTemplate p =  { p with TemplateFilePath = Some (sprintf "%s/%s/paket.te
                                 Version = Some version
                                 Description = ["Changelog Provider Library"]
                                 Authors = ["Idéhub AS"] 
-                                Files = [ Include ("./Changelog.Provider.dll", "/lib/dlls") ] 
-                                Dependencies = [ "CommonMark.NET", AnyVersion; "FSharp.Configuration", AnyVersion ] }
+                                Files = [ Include ("./Changelog.Provider.dll", "/lib/net45") ] 
+                                Dependencies = [ "CommonMark.NET", GreaterOrEqual <| Version "0.15.1"; 
+                                                 "FSharp.Configuration", GreaterOrEqual <| Version "1.3.0"
+                                                 "SharpYaml", GreaterOrEqual <| Version "1.6.1"
+                                                 "FSharp.Data", GreaterOrEqual <| Version "2.3.3" ] }
 
 // Targets
 Target "Clean" (fun _ ->
