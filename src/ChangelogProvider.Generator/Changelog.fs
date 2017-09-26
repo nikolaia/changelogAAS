@@ -8,38 +8,26 @@ open FSharp.Data
 open FSharp.Data.HttpRequestHeaders
 open System.Text.RegularExpressions
 
-open FSharp.Configuration
 
-type ChangelogConfig = YamlConfig<"config.yaml">
 let getChangesBetweenEnvironments (args : ChangelogParameters) = 
-
-    let config = ChangelogConfig()
     
-    // This means a config.yaml has to be present at runtime, and that settings from
-    // the compiletime settings file will be overwritten
-    config.Load "config.yaml"
-
-    let octoUrl = config.octoUrl.ToString()
-    let teamcityUrl = config.teamcityUrl.ToString()
-    let jiraUrl = config.jiraUrl.ToString()
-
     // Fetch the two version we want to diff based on our two environment names
-    let fromEnvVersion = determineEnvironmentVersion args.input.ProjectName args.input.FromEnvironmentName octoUrl args.octoApiKey
-    let toEnvVersion = determineEnvironmentVersion args.input.ProjectName args.input.ToEnvironmentName octoUrl args.octoApiKey
+    let fromEnvVersion = determineEnvironmentVersion args.projectName args.fromEnvironmentName args.octoUrl args.octoApiKey
+    let toEnvVersion = determineEnvironmentVersion args.projectName args.toEnvironmentName args.octoUrl args.octoApiKey
 
-    printfn "Fetching changes between version %s (%s) and %s (%s)" toEnvVersion args.input.ToEnvironmentName fromEnvVersion args.input.FromEnvironmentName
+    printfn "Fetching changes between version %s (%s) and %s (%s)" toEnvVersion args.toEnvironmentName fromEnvVersion args.fromEnvironmentName
 
     // Get the current projects mappings from the Yaml config file 
     // (To know what the project is named in the different systems)
     let currentProject =
-        config.projects
-        |> Seq.tryFind (fun p -> p.octoDeployName = args.input.ProjectName)
+        args.projectMappings
+        |> Seq.tryFind (fun p -> p.octoDeployName = args.projectName)
         |> function
             | Some p -> p
-            | None -> failwith (sprintf "Unable find project mappings for project %s. Please make sure you config.yaml is correct." args.input.ProjectName)
+            | None -> failwith (sprintf "Unable find project mappings for project %s. Please make sure you config.yaml is correct." args.projectName)
 
     // Get all builds from the Teamcity API that are the versions in questions or a version between them
-    let builds = getChangeDiff currentProject.teamcityName fromEnvVersion toEnvVersion teamcityUrl args.tcUsername args.tcPassword
+    let builds = getChangeDiff currentProject.teamcityName fromEnvVersion toEnvVersion args.teamcityUrl args.tcUsername args.tcPassword
 
     // Get the commitmessages for all the builds
     let commitMessages = 
@@ -52,7 +40,7 @@ let getChangesBetweenEnvironments (args : ChangelogParameters) =
     let jiraKeys = 
         commitMessages
         |> Seq.collect (fun commit ->
-            config.projects 
+            args.projectMappings
             |> Seq.map (fun p -> p.jiraKey)
             |> String.concat "|"
             |> sprintf "(%s)-(\d+)"
@@ -61,7 +49,7 @@ let getChangesBetweenEnvironments (args : ChangelogParameters) =
     
     // Fetch more information about the issues parsed from the commit-
     // messages from the JIRA API
-    let jiraIssues = getJiraIssues jiraKeys jiraUrl args.jiraUsername args.jiraPassword
+    let jiraIssues = getJiraIssues jiraKeys args.jiraUrl args.jiraUsername args.jiraPassword
 
     let packageHasDbMigration = 
         commitMessages
@@ -85,9 +73,9 @@ let getChangesBetweenEnvironments (args : ChangelogParameters) =
             })
 
     {
-        ProjectName = args.input.ProjectName
-        FromEnvironment = { Name = args.input.FromEnvironmentName; Version = fromEnvVersion }
-        ToEnvironment = { Name = args.input.ToEnvironmentName; Version = toEnvVersion }
+        ProjectName = args.projectName
+        FromEnvironment = { Name = args.fromEnvironmentName; Version = fromEnvVersion }
+        ToEnvironment = { Name = args.toEnvironmentName; Version = toEnvVersion }
         Commits = mergeCommits
         Issues = jiraIssues
         HasDbMigration = packageHasDbMigration

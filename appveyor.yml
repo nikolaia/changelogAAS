@@ -15,7 +15,7 @@ nuget:
   disable_publish_on_pr: true
 
 build_script:
-  - ps: .\build.cmd Pack
+  - ps: dotnet pack src/ChangelogProvider.Generator/ChangelogProvider.Generator.fsproj -c Release --version-suffix beta6 -o ../../artifacts/
 
 artifacts:
   - path: artifacts\*.nupkg
