@@ -25,6 +25,7 @@
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
     <PackageReference Include="FSharp.Data" Version="2.4.0" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
+    <PackageReference Include="FSharp.Compiler.Tools" Version="4.0.1.21" />
   </ItemGroup>
   <!-- Type Provider workaround https://github.com/Microsoft/visualfsharp/issues/3303 -->
   <PropertyGroup>
@@ -33,7 +34,7 @@
     <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
   </PropertyGroup>
   <PropertyGroup Condition="'$(IsWindows)' == 'true'">
-    <FscToolPath>C:\Program Files (x86)\Microsoft SDKs\F#\4.1\Framework\v4.0</FscToolPath>
+    <FscToolPath>$(HOMEDRIVE)$(HOMEPATH)/.nuget/packages/FSharp.Compiler.Tools/4.0.1.21/tools/</FscToolPath>
     <FscToolExe>fsc.exe</FscToolExe>
   </PropertyGroup>
   <PropertyGroup Condition="'$(IsOSX)' == 'true'">
