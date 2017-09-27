@@ -2,6 +2,7 @@
   <PropertyGroup>
     <Description>Changelog generator that uses the APIs in your deployment pipeline</Description>
     <VersionPrefix>1.0.0</VersionPrefix>
+    <PackageVersion>1.0.0</PackageVersion>
     <TargetFrameworks>net45</TargetFrameworks>
     <AssemblyName>ChangelogProvider</AssemblyName>
     <PackageId>ChangelogProvider</PackageId>
@@ -25,7 +26,9 @@
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
     <PackageReference Include="FSharp.Data" Version="2.4.0" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
-    <PackageReference Include="FSharp.Compiler.Tools" Version="4.0.1.21" />
+    <PackageReference Include="FSharp.Compiler.Tools" Version="4.0.1.21">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <!-- Type Provider workaround https://github.com/Microsoft/visualfsharp/issues/3303 -->
   <PropertyGroup>
