@@ -1,4 +1,4 @@
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 version: 1.0.0-beta{build}
 
@@ -14,8 +14,14 @@ nuget:
   project_feed: true
   disable_publish_on_pr: true
 
+dotnet_csproj:
+  patch: true
+  file: '**\*.fsproj'
+  version: '{version}'
+  package_version: '{version}'
+
 build_script:
-  - ps: .\build.cmd Pack
+  - ps: dotnet pack src/ChangelogProvider.Generator/ChangelogProvider.Generator.fsproj -c Release -o ../../artifacts/
 
 artifacts:
   - path: artifacts\*.nupkg

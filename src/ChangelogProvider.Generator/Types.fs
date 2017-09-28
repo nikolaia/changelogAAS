@@ -1,19 +1,26 @@
 [<AutoOpen>]
 module Types
 
-type ChangelogInput = {
-    ProjectName : string
-    FromEnvironmentName : string
-    ToEnvironmentName : string
+type ProjectMapping = {
+    githubUrl : string
+    jiraKey : string
+    octoDeployName : string
+    teamcityName : string
 }
 
 type ChangelogParameters = {
-    input : ChangelogInput
+    projectName : string
+    fromEnvironmentName : string
+    toEnvironmentName : string
     octoApiKey : string
     tcUsername : string
     tcPassword : string
     jiraUsername : string
     jiraPassword : string
+    octoUrl : string
+    teamcityUrl : string
+    jiraUrl : string
+    projectMappings : ProjectMapping seq
 }
 
 type MergeCommit = {
