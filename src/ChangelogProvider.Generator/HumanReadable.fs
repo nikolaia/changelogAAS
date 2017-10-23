@@ -16,7 +16,7 @@ let private getJiraMarkdownStringFromIssue issue =
         issue.Link
         issue.Summary 
         color 
-        (issue.Issuetype.ToString()) 
+        (IssueType.ToString issue.Issuetype) 
         issue.FixVersions 
         issue.Labels 
         issue.Status
