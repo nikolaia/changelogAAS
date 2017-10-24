@@ -8,16 +8,31 @@ type ProjectMapping = {
     teamcityName : string
 }
 
-type ChangelogParameters = {
+type EnvironmentChangelogParameters = {
     projectName : string
     fromEnvironmentName : string
     toEnvironmentName : string
     octoApiKey : string
+    octoUrl : string
+
     tcUsername : string
     tcPassword : string
     jiraUsername : string
     jiraPassword : string
-    octoUrl : string
+    teamcityUrl : string
+    jiraUrl : string
+    projectMappings : ProjectMapping seq
+} 
+    
+
+type ChangelogParameters = {
+    projectName : string
+    fromVersion : string
+    toVersion : string
+    tcUsername : string
+    tcPassword : string
+    jiraUsername : string
+    jiraPassword : string
     teamcityUrl : string
     jiraUrl : string
     projectMappings : ProjectMapping seq
@@ -71,15 +86,10 @@ type Issue = {
     Link : string
 } 
 
-type Environment = {
-    Name : string
-    Version : string
-}
-
 type Changelog = {
     ProjectName : string
-    FromEnvironment : Environment
-    ToEnvironment : Environment
+    FromVersion : string
+    ToVersion : string
     Commits : MergeCommit seq
     Issues : Issue seq
     HasDbMigration : bool
