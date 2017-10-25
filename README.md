@@ -10,6 +10,7 @@ Currently works with a pipeline consisting of Octopus Deploy (OD), TeamCity (TC)
 For different examples of hosting the provider (Azure Functions, Suave etc.), check out the `examples` folder.
 
 Simple example calling the library from C#:
+
 ```csharp
 var mapping = new List<Types.ProjectMapping>() {
   new Types.ProjectMapping(

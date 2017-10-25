@@ -10,6 +10,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <IsPackable>true</IsPackable>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Types.fs" />
