@@ -32,6 +32,10 @@ for:
     only:
       - master
 
+  only_commits:
+    message: /release/
+    author: nikolaia@users.noreply.github.com
+
   deploy:
     provider: NuGet
     api_key:
