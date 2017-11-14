@@ -41,7 +41,7 @@ let private packageHasDbMigration b =
 
 let changelogToMarkdown (changelog : Changelog) =
     (sprintf """# Changelog for *%s*
-This list shows changes between the environments *%s* (%s) and *%s* (%s)
+This list shows changes between version *%s* and *%s*
 ## JIRA Issues
 
 %s
@@ -53,10 +53,8 @@ This list shows changes between the environments *%s* (%s) and *%s* (%s)
 ## Database Migrations
 
 %s""" changelog.ProjectName
-changelog.FromEnvironment.Name
-changelog.FromEnvironment.Version
-changelog.ToEnvironment.Name
-changelog.ToEnvironment.Version (jiraIssuesMarkdown changelog.Issues) (getMergeCommit changelog.Commits) (packageHasDbMigration changelog.HasDbMigration))
+changelog.FromVersion
+changelog.ToVersion (jiraIssuesMarkdown changelog.Issues) (getMergeCommit changelog.Commits) (packageHasDbMigration changelog.HasDbMigration))
 
 let changelogToHtml (changelog : Changelog) =
     let body = CommonMark.CommonMarkConverter.Convert(changelogToMarkdown changelog);
