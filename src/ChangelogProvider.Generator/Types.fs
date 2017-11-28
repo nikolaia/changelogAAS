@@ -1,8 +1,10 @@
 [<AutoOpen>]
 module Types
 
+open System
+
 type ProjectMapping = {
-    githubUrl : string
+    githubUrl : Uri
     jiraKey : string
     octoDeployName : string
     teamcityName : string
@@ -13,14 +15,14 @@ type EnvironmentChangelogParameters = {
     fromEnvironmentName : string
     toEnvironmentName : string
     octoApiKey : string
-    octoUrl : string
+    octoUrl : Uri
 
     tcUsername : string
     tcPassword : string
     jiraUsername : string
     jiraPassword : string
-    teamcityUrl : string
-    jiraUrl : string
+    teamcityUrl : Uri
+    jiraUrl : Uri
     projectMappings : ProjectMapping seq
 } 
     
@@ -29,19 +31,20 @@ type ChangelogParameters = {
     projectName : string
     fromVersion : string
     toVersion : string
+    
     tcUsername : string
     tcPassword : string
     jiraUsername : string
     jiraPassword : string
-    teamcityUrl : string
-    jiraUrl : string
+    teamcityUrl : Uri
+    jiraUrl : Uri
     projectMappings : ProjectMapping seq
 }
 
 type MergeCommit = {
     number : string
     message : string
-    link : string
+    link : Uri
 }
 
 type IssueType =
@@ -83,7 +86,7 @@ type Issue = {
     ApplicationUser: string
     Labels : string
     Status : string
-    Link : string
+    Link : Uri
 } 
 
 type Changelog = {

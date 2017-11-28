@@ -1,5 +1,6 @@
 module Changelog
 
+open System
 open Octopus
 open Teamcity
 open Jira
@@ -56,11 +57,11 @@ let getChangesBetweenVersions (args : ChangelogParameters) =
             let number = matches.Groups.[1].Value
             let branch = matches.Groups.[2].Value
             let message = matches.Groups.[3].Value
-            let githubUrl = currentProject.githubUrl.ToString()
+            let githubUrl = currentProject.githubUrl
             {
                 number = number
                 message = message
-                link = sprintf "%spull/%s" githubUrl number
+                link =  Uri (githubUrl, (sprintf "pull/%s" number))
             })
 
     {
