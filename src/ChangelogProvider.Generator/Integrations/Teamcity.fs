@@ -26,7 +26,6 @@ let getChangeDiff buildConfigurationId newVersion oldVersion baseUrl username pa
             mainNewVersion 
             buildConfigurationId 
             mainOldVersion
-
             
     let buildsRequestUrl =  Uri (baseUrl, relativeUrl)
     
