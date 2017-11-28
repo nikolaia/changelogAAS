@@ -1,20 +1,22 @@
 module Octopus
 
+open System
 open OctopusSamples
 open FSharp.Data
 open FSharp.Data.HttpRequestHeaders
 
+
 type OctoProjectList = JsonProvider<OctopusProjectListSample>
 type OctoProject = JsonProvider<OctopusProjectSample>
 
-let determineEnvironmentVersion projectName environmentName baseUrl apiKey  =
+let determineEnvironmentVersion projectName environmentName (baseUrl:Uri) apiKey  =
 
     let octoHeader = [ "X-Octopus-ApiKey", apiKey; Accept HttpContentTypes.Json ]
 
-    let httpRequestOctopus subUrl =
-        let url = sprintf "%s/%s" baseUrl subUrl
-        printfn "Octopus Deploy: Calling %s to get information about %s in environment %s" url projectName environmentName
-        Http.RequestString(url, headers = octoHeader)
+    let httpRequestOctopus (subUrl:string) =
+        let url = Uri (baseUrl, subUrl)
+        printfn "Octopus Deploy: Calling %O to get information about %s in environment %s" url projectName environmentName
+        Http.RequestString(url.ToString(), headers = octoHeader)
 
     let projectId =
         httpRequestOctopus "api/projects"

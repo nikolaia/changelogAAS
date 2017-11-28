@@ -1,5 +1,6 @@
 module Jira
 
+open System
 open FSharp.Data
 open JiraSamples
 open FSharp.Data.HttpRequestHeaders
@@ -29,13 +30,13 @@ let getJiraIssues keys baseUrl username password =
             """
             (queryKeys |> String.concat ","))
 
-        let url = sprintf "%s/rest/api/2/search/" baseUrl
+        let url = Uri (baseUrl,"/rest/api/2/search/")
         
         let header = [ BasicAuth username password; Accept HttpContentTypes.Json; ContentType "application/json;charset=utf-8" ]
 
         let doSearch searchKeys = 
             try
-                Some (Http.RequestString(url, 
+                Some (Http.RequestString(url.ToString(), 
                                          headers = header,
                                          httpMethod = "POST", 
                                          body = TextRequest (buildQuery searchKeys)))
@@ -74,5 +75,5 @@ let getJiraIssues keys baseUrl username password =
                 ApplicationUser = applicationUser
                 Labels = issue.Fields.Labels |> String.concat ","
                 Status = issue.Fields.Status.Name
-                Link = sprintf "%sbrowse/%s" baseUrl issue.Key 
+                Link = Uri(baseUrl, (sprintf "browse/%s" issue.Key))
             })

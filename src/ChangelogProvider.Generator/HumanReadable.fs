@@ -11,7 +11,7 @@ let private addNewline s = s + System.Environment.NewLine
 let private getJiraMarkdownStringFromIssue issue =
     let color = IssueType.GetColor issue.Issuetype
 
-    sprintf "* [%s](%s) %s (<font color='%s'>_%s_</font>,_%s_, _%s_, _%s_)" 
+    sprintf "* [%s](%O) %s (<font color='%s'>_%s_</font>,_%s_, _%s_, _%s_)" 
         issue.Key 
         issue.Link
         issue.Summary 
@@ -27,7 +27,7 @@ let private jiraIssuesMarkdown issues =
     |> Seq.fold (+) ""
 
 let private getMergeMarkdownStringFromCommit commit = 
-    sprintf "* [%s](%s) %s" commit.number commit.link commit.message
+    sprintf "* [%s](%O) %s" commit.number commit.link commit.message
 
 let private getMergeCommit commits = 
     commits
