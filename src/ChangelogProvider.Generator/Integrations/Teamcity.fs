@@ -25,8 +25,7 @@ let getChangeDiff buildConfigurationId newVersion oldVersion baseUrl username pa
             responseEncodingOverride = "UTF-8")
 
     let relativeUrl = 
-        sprintf "httpAuth/app/rest/builds?id=%s&locator=buildType:%s,sinceBuild:%s&fields=$long,build(id,number,status,changes($long,change(id,comment)))" 
-            mainNewVersion 
+        sprintf "httpAuth/app/rest/builds?locator=buildType:%s,sinceBuild:number:%s&fields=$long,build(id,number,status,changes($long,change(id,comment)))" 
             buildConfigurationId 
             mainOldVersion
             
