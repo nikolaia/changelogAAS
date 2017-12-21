@@ -19,7 +19,10 @@ let getChangeDiff buildConfigurationId newVersion oldVersion baseUrl username pa
 
 
     let sendBasicAuthRequest (url: Uri) = 
-        Http.RequestString(url.ToString(), headers = [ BasicAuth username password; Accept HttpContentTypes.Json; ContentType "application/json;charset=utf-8" ])
+        Http.RequestString(
+            url.ToString(), 
+            headers = [ BasicAuth username password; Accept HttpContentTypes.Json; ContentType "application/json;charset=utf-8"],
+            responseEncodingOverride = "UTF-8")
 
     let relativeUrl = 
         sprintf "httpAuth/app/rest/builds?id=%s&locator=buildType:%s,sinceBuild:%s&fields=$long,build(id,number,status,changes($long,change(id,comment)))" 
